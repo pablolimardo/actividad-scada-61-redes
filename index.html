@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva: Desafío de Redes Industriales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for longer content */
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 2rem;
+        }
+        .step-card {
+            background-color: #2d3748; /* Slightly lighter dark for cards */
+            border-radius: 0.75rem; /* rounded-lg */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+            margin-bottom: 1rem;
+            overflow: hidden; /* For rounded corners on instruction content */
+        }
+        .step-header {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid #4a5568; /* border-gray-700 */
+        }
+        .step-header.completed {
+            background-color: #1e3a8a; /* A darker blue to indicate completion */
+        }
+        .step-instructions {
+            padding: 1.5rem;
+            background-color: #242b38; /* Even darker for instruction background */
+            border-top: 1px solid #4a5568;
+        }
+        .code-block {
+            background-color: #171923; /* Very dark for code */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            white-space: pre-wrap; /* Preserve whitespace and wrap text */
+            word-wrap: break-word; /* Break long words */
+            font-family: 'JetBrains Mono', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            font-size: 0.875rem;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #4a5568; /* bg-gray-600 */
+            border-radius: 9999px; /* rounded-full */
+            height: 1rem;
+            margin-top: 2rem;
+        }
+        .progress-bar-fill {
+            background-color: #48bb78; /* bg-green-500 */
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.3s ease-in-out;
+        }
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600; /* font-semibold */
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            border: none;
+        }
+        .button-toggle {
+            background-color: #4299e1; /* blue-500 */
+            color: white;
+        }
+        .button-toggle:hover {
+            background-color: #3182ce; /* blue-600 */
+        }
+        .button-complete {
+            background-color: #48bb78; /* green-500 */
+            color: white;
+        }
+        .button-complete:hover {
+            background-color: #38a169; /* green-600 */
+        }
+        .button-complete.disabled {
+            background-color: #718096; /* gray-500 */
+            cursor: not-allowed;
+        }
+        .check-icon {
+            margin-left: 0.5rem;
+            color: #48bb78; /* green-500 */
+        }
+        .warning-text {
+            color: #f6ad55; /* orange-400 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div class="container mx-auto p-4 md:p-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-blue-400">Guía Interactiva: Desafío de Redes Industriales en Packet Tracer</h1>
+        <p class="text-center text-gray-400 mb-6 text-lg">
+            Sigue esta guía paso a paso para completar el desafío de Packet Tracer. ¡Marca cada paso como completado a medida que avanzas!
+        </p>
+
+        <div id="steps-container">
+            <!-- Step 1 -->
+            <div id="step1" class="step-card">
+                <div class="step-header" onclick="toggleInstructions('step1')">
+                    <h2 class="text-xl font-semibold text-blue-300">Paso 1: Armado Físico y Conexiones</span></h2>
+                    <span class="text-2xl toggle-icon">▼</span>
+                </div>
+                <div class="step-instructions hidden">
+                    <p class="mb-3">
+                        Comienza arrastrando los dispositivos necesarios a tu espacio de trabajo en Packet Tracer y realizando las conexiones físicas.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>**Dispositivos:**
+                            <ul class="list-disc list-inside ml-4">
+                                <li>1 x **Router** (modelo 1941 o similar)</li>
+                                <li>2 x **Switches** (modelo 2960 o similar)</li>
+                                <li>2 x **PCs** (para Sala de Control)</li>
+                                <li>3 x **End Devices genéricos** (para PLCs y HMI en Línea de Producción)</li>
+                                <li>1 x **Servidor** genérico (para simular el servidor ISP/Internet)</li>
+                            </ul>
+                        </li>
+                        <li>**Conexiones:** Utiliza el tipo de cable **Cobre Directo** (`Copper Straight-Through`) para todas las conexiones.
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Conecta el **Router** a ambos **Switches** (usa puertos GigabitEthernet en el Router).</li>
+                                <li>Conecta los **PCs, Servidor SCADA (un PC)** y **Dispositivos Genéricos (PLCs/HMI)** a los **Switches** (usa puertos FastEthernet en los Switches).</li>
+                                <li>Conecta el **Router** al **Servidor ISP** (usa un puerto GigabitEthernet diferente en el Router).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="mt-4 flex justify-end">
+                        <button class="button button-complete" onclick="markComplete('step1')">Completado <span class="check-icon">✔</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="step2" class="step-card">
+                <div class="step-header" onclick="toggleInstructions('step2')">
+                    <h2 class="text-xl font-semibold text-blue-300">Paso 2: Asignación de Direcciones IP</h2>
+                    <span class="text-2xl toggle-icon">▼</span>
+                </div>
+                <div class="step-instructions hidden">
+                    <p class="mb-3">Configura las direcciones IP en cada dispositivo final y en las interfaces del router según la topología.</p>
+                    <h3 class="font-semibold text-blue-200 mt-4 mb-2">Dispositivos Finales (PCs, Servidor SCADA, PLCs, HMI, Servidor ISP):</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>**PC de Control:** IP: `192.168.1.11`, Máscara: `255.255.255.0`, Gateway: `192.168.1.1`</li>
+                        <li>**Servidor SCADA (PC):** IP: `192.168.1.10`, Máscara: `255.255.255.0`, Gateway: `192.168.1.1`</li>
+                        <li>**PLC-1 (End Device):** IP: `192.168.2.10`, Máscara: `255.255.255.0`, Gateway: `192.168.2.1`</li>
+                        <li>**PLC-2 (End Device):** IP: `192.168.2.11`, Máscara: `255.255.255.0`, Gateway: `192.168.2.1`</li>
+                        <li>**HMI-1 (End Device):** IP: `192.168.2.12`, Máscara: `255.255.255.0`, Gateway: `192.168.2.1`</li>
+                        <li>**Servidor ISP (Servidor):** IP: `203.0.113.2`, Máscara: `255.255.255.252` (¡Cuidado con la máscara /30!)</li>
+                    </ul>
+
+                    <h3 class="font-semibold text-blue-200 mt-4 mb-2">Interfaces del Router (Modo CLI):</h3>
+                    <div class="code-block">
+                        <pre>Router>enable</pre>
+                        <pre>Router#configure terminal</pre>
+                        <pre>Router(config)#interface GigabitEthernet0/0</pre>
+                        <pre>Router(config-if)#ip address 192.168.1.1 255.255.255.0</pre>
+                        <pre>Router(config-if)#no shutdown</pre>
+                        <pre>Router(config-if)#exit</pre>
+                        <pre>Router(config)#interface GigabitEthernet0/1</pre>
+                        <pre>Router(config-if)#ip address 192.168.2.1 255.255.255.0</pre>
+                        <pre>Router(config-if)#no shutdown</pre>
+                        <pre>Router(config-if)#exit</pre>
+                        <pre>Router(config)#interface GigabitEthernet0/2</pre>
+                        <pre>Router(config-if)#ip address 203.0.113.1 255.255.255.252</pre>
+                        <pre>Router(config-if)#no shutdown</pre>
+                        <pre>Router(config-if)#exit</pre>
+                        <pre>Router(config)#end</pre>
+                        <pre>Router#write memory</pre>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="button button-complete" onclick="markComplete('step2')">Completado <span class="check-icon">✔</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step3" class="step-card">
+                <div class="step-header" onclick="toggleInstructions('step3')">
+                    <h2 class="text-xl font-semibold text-blue-300">Paso 3: Configuración del Router - Enrutamiento Estático</h2>
+                    <span class="text-2xl toggle-icon">▼</span>
+                </div>
+                <div class="step-instructions hidden">
+                    <p class="mb-3">Configura una ruta estática por defecto en el router para permitir el acceso a Internet.</p>
+                    <h3 class="font-semibold text-blue-200 mt-4 mb-2">En el Router (Modo CLI):</h3>
+                    <div class="code-block">
+                        <pre>Router>enable</pre>
+                        <pre>Router#configure terminal</pre>
+                        <pre>Router(config)#ip route 0.0.0.0 0.0.0.0 203.0.113.2</pre>
+                        <pre><span class="warning-text">// (203.0.113.2 es la IP del Servidor ISP, el siguiente salto)</span></pre>
+                        <pre>Router(config)#end</pre>
+                        <pre>Router#write memory</pre>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="button button-complete" onclick="markComplete('step3')">Completado <span class="check-icon">✔</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div id="step4" class="step-card">
+                <div class="step-header" onclick="toggleInstructions('step4')">
+                    <h2 class="text-xl font-semibold text-blue-300">Paso 4: Configuración Básica de Switches</h2>
+                    <span class="text-2xl toggle-icon">▼</span>
+                </div>
+                <div class="step-instructions hidden">
+                    <p class="mb-3">Asigna un nombre a cada switch y configura una dirección IP de gestión para que puedas acceder a ellos por red (VLAN 1).</p>
+                    <h3 class="font-semibold text-blue-200 mt-4 mb-2">En el Switch de Sala de Control (Modo CLI):</h3>
+                    <div class="code-block">
+                        <pre>Switch>enable</pre>
+                        <pre>Switch#configure terminal</pre>
+                        <pre>Switch(config)#hostname Switch_SC</pre>
+                        <pre>Switch_SC(config)#interface vlan 1</pre>
+                        <pre>Switch_SC(config-if)#ip address 192.168.1.2 255.255.255.0</pre>
+                        <pre>Switch_SC(config-if)#no shutdown</pre>
+                        <pre>Switch_SC(config-if)#exit</pre>
+                        <pre>Switch_SC(config)#ip default-gateway 192.168.1.1</pre>
+                        <pre>Switch_SC(config)#end</pre>
+                        <pre>Switch_SC#write memory</pre>
+                    </div>
+                    <h3 class="font-semibold text-blue-200 mt-4 mb-2">En el Switch de Línea de Producción (Modo CLI):</h3>
+                    <div class="code-block">
+                        <pre>Switch>enable</pre>
+                        <pre>Switch#configure terminal</pre>
+                        <pre>Switch(config)#hostname Switch_LP</pre>
+                        <pre>Switch_LP(config)#interface vlan 1</pre>
+                        <pre>Switch_LP(config-if)#ip address 192.168.2.2 255.255.255.0</pre>
+                        <pre>Switch_LP(config-if)#no shutdown</pre>
+                        <pre>Switch_LP(config-if)#exit</pre>
+                        <pre>Switch_LP(config)#ip default-gateway 192.168.2.1</pre>
+                        <pre>Switch_LP(config)#end</pre>
+                        <pre>Switch_LP#write memory</pre>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="button button-complete" onclick="markComplete('step4')">Completado <span class="check-icon">✔</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div id="step5" class="step-card">
+                <div class="step-header" onclick="toggleInstructions('step5')">
+                    <h2 class="text-xl font-semibold text-blue-300">Paso 5: Seguridad de Puertos en Switch SC</h2>
+                    <span class="text-2xl toggle-icon">▼</span>
+                </div>
+                <div class="step-instructions hidden">
+                    <p class="mb-3">Activá la seguridad de puertos en la interfaz donde está conectado el Servidor SCADA en el Switch de Sala de Control.</p>
+                    <h3 class="font-semibold text-blue-200 mt-4 mb-2">En el Switch de Sala de Control (Switch_SC) (Modo CLI):</h3>
+                    <div class="code-block">
+                        <pre>Switch_SC>enable</pre>
+                        <pre>Switch_SC#configure terminal</pre>
+                        <pre>Switch_SC(config)#interface FastEthernet0/1 <span class="warning-text">// (¡Verificá que sea el puerto de tu Servidor SCADA!)</span></pre>
+                        <pre>Switch_SC(config-if)#switchport mode access</pre>
+                        <pre>Switch_SC(config-if)#switchport port-security</pre>
+                        <pre>Switch_SC(config-if)#switchport port-security maximum 1</pre>
+                        <pre>Switch_SC(config-if)#switchport port-security mac-address sticky</pre>
+                        <pre>Switch_SC(config-if)#switchport port-security violation restrict</pre>
+                        <pre>Switch_SC(config-if)#end</pre>
+                        <pre>Switch_SC#write memory</pre>
+                    </div>
+                    <p class="mt-3 text-gray-300">
+                        **Verificación:** Una vez configurado, intentá conectar otro dispositivo (ej. otra PC) al puerto FastEthernet0/1 del Switch_SC. Observá el estado del puerto (verde/naranja/rojo) y si podés ver mensajes en la consola del switch (`show port-security interface Fa0/1`).
+                    </p>
+                    <div class="mt-4 flex justify-end">
+                        <button class="button button-complete" onclick="markComplete('step5')">Completado <span class="check-icon">✔</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div id="step6" class="step-card">
+                <div class="step-header" onclick="toggleInstructions('step6')">
+                    <h2 class="text-xl font-semibold text-blue-300">Paso 6: Verificación de Conectividad</h2>
+                    <span class="text-2xl toggle-icon">▼</span>
+                </div>
+                <div class="step-instructions hidden">
+                    <p class="mb-3">¡Ahora lo más importante: verificar que todo funciona! Abrí el "Command Prompt" o "Terminal" en los dispositivos y usá el comando `ping`.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>**Ping dentro de la LAN SC:** Desde la **PC de Control**, hace ping al **Servidor SCADA** (`ping 192.168.1.10`).</li>
+                        <li>**Ping dentro de la LAN LP:** Desde **PLC-1**, hace ping a **PLC-2** (`ping 192.168.2.11`).</li>
+                        <li>**Ping entre LANs (a través del Router):** Desde la **PC de Control**, hace ping a **PLC-1** (`ping 192.168.2.10`).</li>
+                        <li>**Ping a Internet:** Desde la **PC de Control**, hace ping al **Servidor ISP** (`ping 203.0.113.2`).</li>
+                    </ul>
+                    <p class="mt-3 text-gray-300">Si todos los pings son exitosos (¡recordá que el primero puede fallar a veces por ARP!), ¡felicitaciones! Tu red está operativa.</p>
+                    <div class="mt-4 flex justify-end">
+                        <button class="button button-complete" onclick="markComplete('step6')">Completado <span class="check-icon">✔</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-bar-container">
+            <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <p class="text-center text-gray-400 mt-2">
+            <span id="completed-steps">0</span> de <span id="total-steps">6</span> pasos completados
+        </p>
+
+        <div class="mt-8 p-6 bg-yellow-800 text-yellow-100 rounded-lg shadow-md text-center">
+            <h2 class="text-2xl font-bold mb-2">¡Desafío Completado!</h2>
+            <p>Demostraste tus habilidades en el diseño y configuración de redes industriales. ¡Esto es clave para tu futuro en automatización y control de procesos!</p>
+        </div>
+    </div>
+
+    <script>
+        // Array para seguir el estado de cada paso
+        const stepsState = {
+            step1: { completed: false, instructionsVisible: false },
+            step2: { completed: false, instructionsVisible: false },
+            step3: { completed: false, instructionsVisible: false },
+            step4: { completed: false, instructionsVisible: false },
+            step5: { completed: false, instructionsVisible: false },
+            step6: { completed: false, instructionsVisible: false }
+        };
+        const totalSteps = Object.keys(stepsState).length;
+
+        // Actualiza el número total de pasos en la UI
+        document.getElementById('total-steps').textContent = totalSteps;
+
+        // Función para alternar la visibilidad de las instrucciones
+        function toggleInstructions(stepId) {
+            const stepElement = document.getElementById(stepId);
+            const instructionsElement = stepElement.querySelector('.step-instructions');
+            const toggleIcon = stepElement.querySelector('.toggle-icon');
+
+            stepsState[stepId].instructionsVisible = !stepsState[stepId].instructionsVisible;
+
+            if (stepsState[stepId].instructionsVisible) {
+                instructionsElement.classList.remove('hidden');
+                toggleIcon.textContent = '▲';
+            } else {
+                instructionsElement.classList.add('hidden');
+                toggleIcon.textContent = '▼';
+            }
+        }
+
+        // Función para marcar un paso como completado
+        function markComplete(stepId) {
+            stepsState[stepId].completed = true;
+            const stepElement = document.getElementById(stepId);
+            const headerElement = stepElement.querySelector('.step-header');
+            const completeButton = stepElement.querySelector('.button-complete');
+
+            headerElement.classList.add('completed');
+            completeButton.classList.add('disabled');
+            completeButton.textContent = 'Completado ✔';
+            completeButton.onclick = null; // Deshabilita el botón
+
+            updateProgress();
+        }
+
+        // Función para actualizar la barra de progreso
+        function updateProgress() {
+            let completedCount = 0;
+            for (const step in stepsState) {
+                if (stepsState[step].completed) {
+                    completedCount++;
+                }
+            }
+            document.getElementById('completed-steps').textContent = completedCount;
+
+            const progressPercentage = (completedCount / totalSteps) * 100;
+            document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+        }
+
+        // Inicializar la interfaz al cargar la página
+        document.addEventListener('DOMContentLoaded', updateProgress);
+    </script>
+</body>
+</html>
